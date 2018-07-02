@@ -14,8 +14,13 @@ snd = snd / (2.**15)
 
 # Calculate time frame using the number of sample points divided by sampling rate
 
-# Feature No.1
-# Time duration of clip that has sound level over threshold
+# Feature 1
+# Time duration of clip that pass a given audio filter. Initial audio filter can be 
+# sound above a specific amplitude threshold 
 
-# Feature No.2
-# 
+# Feature 2
+# Option to ignore parts of the audio file. Starting from the beginning and the end for custom length
+
+# Feature 3
+# Custom audio filter design. This can be audio filter with sound above a specific amplitude over a certain period.
+
