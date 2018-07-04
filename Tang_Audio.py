@@ -26,10 +26,26 @@ snd_down = []
 downFactor = 200
 for i in range(len(snd)):
     if i % downFactor == 0:
-        if snd[i] < 0.5 and snd[i] > -0.5:
-                snd_down.append(snd[i])
+        snd_down.append(snd[i])
 
 print "Number of frames after downsampling: ", len(snd_down)
+
+# List to array conversion
+snd_down = np.asarray(snd_down)
+
+# Perform amplitude envelope smoothing
+# Calculate mean for desired number of frames
+meanFrames = 10
+# Initailize parameter
+meanThreshold = 0
+mTFactor = 1.5
+for index in range(len(snd_down) - meanFrames):
+    for idx in range(meanFrames - 1):
+        meanThreshold = meanThreshold + abs(snd_down[index + idx])
+    meanThreshold = meanThreshold / meanFrames
+
+    if abs(snd_down[index]) > meanThreshold * mTFactor:
+        snd_down[index] = 0
 
 # Feature 1
 # Time duration of clip that pass a given audio filter. Initial audio filter can be
@@ -40,11 +56,9 @@ print "Number of frames after downsampling: ", len(snd_down)
 #plt.ylabel('amplitude')
 #plt.show()
 fig, ax = plt.subplots()
-
-# List to array conversion
-snd_down = np.asarray(snd_down)
+# Plot duration of one minute
 ys = snd_down[:sampFreq/downFactor * 60]
-threshold = 0.5
+threshold = 0.15
 ax.axhline(y=threshold, color='r', linestyle=':')
 ax.plot(ys)
 
@@ -53,7 +67,8 @@ greater_than_threshold = [i for i, val in enumerate(ys) if val>threshold]
 ax.plot(greater_than_threshold, ys[greater_than_threshold],
         linestyle='none', color='r', marker='o', markersize=3)
 axes = plt.gca()
-axes.set_ylim([-1,1])  
+axes.set_ylim([-1,1])
+plt.title("threshold set to %.2f" %threshold)
 plt.show()
 
 # Find max and min volume in clip
