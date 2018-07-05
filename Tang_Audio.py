@@ -39,6 +39,9 @@ meanFrames = 10
 # Initailize parameter
 meanThreshold = 0
 mTFactor = 1.5
+# AmpFactor is for better visual presentaion
+AmpFactor = 1.5
+
 for index in range(len(snd_down) - meanFrames):
     for idx in range(meanFrames - 1):
         meanThreshold = meanThreshold + abs(snd_down[index + idx])
@@ -46,6 +49,8 @@ for index in range(len(snd_down) - meanFrames):
 
     if abs(snd_down[index]) > meanThreshold * mTFactor:
         snd_down[index] = 0
+    else:
+        snd_down[index] = snd_down[index] * AmpFactor
 
 # Feature 1
 # Time duration of clip that pass a given audio filter. Initial audio filter can be
@@ -57,10 +62,10 @@ for index in range(len(snd_down) - meanFrames):
 #plt.show()
 fig, ax = plt.subplots()
 # Plot duration of one minute
-durationSeconds = 60
+durationSeconds = 290
 print "Duration examined: ", durationSeconds, "seconds"
 ys = snd_down[:sampFreq/downFactor * durationSeconds]
-threshold = 0.15
+threshold = 0.1
 ax.axhline(y=threshold, color='r', linestyle=':')
 ax.plot(ys)
 
