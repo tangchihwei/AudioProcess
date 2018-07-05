@@ -57,7 +57,7 @@ for index in range(len(snd_down) - meanFrames):
 #plt.show()
 fig, ax = plt.subplots()
 # Plot duration of one minute
-durationSeconds = 60
+durationSeconds = 300
 print "Duration examined: ", durationSeconds, "seconds"
 ys = snd_down[:sampFreq/downFactor * durationSeconds]
 threshold = 0.15
@@ -73,7 +73,7 @@ ax.plot(greater_than_threshold, ys[greater_than_threshold],
         linestyle='none', color='r', marker='o', markersize=3)
 axes = plt.gca()
 axes.set_ylim([-1,1])
-plt.title("threshold set to %.2f" %threshold)
+plt.title("threshold set to %.1f" %threshold)
 plt.show()
 
 # Find max and min volume in clip
