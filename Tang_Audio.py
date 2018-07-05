@@ -57,12 +57,17 @@ for index in range(len(snd_down) - meanFrames):
 #plt.show()
 fig, ax = plt.subplots()
 # Plot duration of one minute
-ys = snd_down[:sampFreq/downFactor * 60]
+durationSeconds = 60
+print "Duration examined: ", durationSeconds, "seconds"
+ys = snd_down[:sampFreq/downFactor * durationSeconds]
 threshold = 0.15
 ax.axhline(y=threshold, color='r', linestyle=':')
 ax.plot(ys)
 
+# Count frames that are greater than threshold
 greater_than_threshold = [i for i, val in enumerate(ys) if val>threshold]
+# Calculate percentage
+print "Percentage of high frames: ", float(len(greater_than_threshold))*100/len(ys), "%"
 
 ax.plot(greater_than_threshold, ys[greater_than_threshold],
         linestyle='none', color='r', marker='o', markersize=3)
